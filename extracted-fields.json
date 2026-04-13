@@ -1,0 +1,44 @@
+[
+  {
+    "Key": "full_name",
+    "Label": "Full Name",
+    "Value": "John Michael Doe",
+    "Type": "Content Control"
+  },
+  {
+    "Key": "email_address",
+    "Label": "Email Address",
+    "Value": "john.doeexamplecom - invalid email format",
+    "Type": "Content Control"
+  },
+  {
+    "Key": "birth_date",
+    "Label": "Date of Birth",
+    "Value": "195-15 - invalid date format",
+    "Type": "Content Control"
+  },
+  {
+    "Key": "gender",
+    "Label": "Gender",
+    "Value": "Male",
+    "Type": "Content Control"
+  },
+  {
+    "Key": "country",
+    "Label": "Country",
+    "Value": "United States",
+    "Type": "Content Control"
+  },
+  {
+    "Key": "address",
+    "Label": "Address",
+    "Value": "456 Side Street, Springfield, IL 62701, USA",
+    "Type": "Content Control"
+  },
+  {
+    "Key": "agree_terms",
+    "Label": "I agree to the terms and conditions",
+    "Value": "Yes",
+    "Type": "Content Control"
+  }
+]

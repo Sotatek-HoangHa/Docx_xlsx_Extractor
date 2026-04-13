@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build:*)",
+      "Bash(csc -target:exe -out:DebugExtractor.exe -reference:bin/Debug/net8.0/DocumentFormat.OpenXml.dll DebugExtractor.cs)",
+      "Bash(./DebugExtractor.exe)",
+      "Bash(find . -name \"*.AssemblyAttributes.cs\" -delete)",
+      "Bash(find . -name \"*.AssemblyInfo.cs\" -delete)",
+      "Bash(rm -rf bin obj)",
+      "Bash(dotnet run:*)"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+C:\Users\admin\DocxExtractor\bin\Debug\net8.0\DocxExtractor.exe
+C:\Users\admin\DocxExtractor\bin\Debug\net8.0\DocxExtractor.deps.json
+C:\Users\admin\DocxExtractor\bin\Debug\net8.0\DocxExtractor.runtimeconfig.json
+C:\Users\admin\DocxExtractor\bin\Debug\net8.0\DocxExtractor.dll
+C:\Users\admin\DocxExtractor\bin\Debug\net8.0\DocxExtractor.pdb
+C:\Users\admin\DocxExtractor\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Users\admin\DocxExtractor\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\admin\DocxExtractor\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\Users\admin\DocxExtractor\obj\Debug\net8.0\DocxExtractor.csproj.AssemblyReference.cache
+C:\Users\admin\DocxExtractor\obj\Debug\net8.0\DocxExtractor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\DocxExtractor\obj\Debug\net8.0\DocxExtractor.csproj.CoreCompileInputs.cache
+C:\Users\admin\DocxExtractor\obj\Debug\net8.0\DocxExtr.2A3A6054.Up2Date
+C:\Users\admin\DocxExtractor\obj\Debug\net8.0\DocxExtractor.dll
+C:\Users\admin\DocxExtractor\obj\Debug\net8.0\refint\DocxExtractor.dll
+C:\Users\admin\DocxExtractor\obj\Debug\net8.0\DocxExtractor.pdb
+C:\Users\admin\DocxExtractor\obj\Debug\net8.0\DocxExtractor.genruntimeconfig.cache
+C:\Users\admin\DocxExtractor\obj\Debug\net8.0\ref\DocxExtractor.dll
