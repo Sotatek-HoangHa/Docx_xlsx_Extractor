@@ -90,23 +90,28 @@ DisplayAsJson(filteredFields);
 Console.WriteLine("\n=== EXTRACTED DATA (TABLE FORMAT - AFTER FILTERING) ===\n");
 DisplayAsTable(filteredFields);
 
-// Step 8: Save to analytics database for reporting
-Console.WriteLine("\nStep 8: Saving extracted data to analytics database...");
-var analyticsService = new DuckDBService("extracted_data.db");
-var filterProfileName = activeFilter?.ProfileName ?? "none";
-analyticsService.SaveExtractedFields(filteredFields, FILLED_TEMPLATE_PATH, filterProfileName);
-Console.WriteLine("✓ Data saved to extracted_data.db\n");
+// Step 8: Save to PostgreSQL for reporting
+Console.WriteLine("\nStep 8: Saving extracted data to PostgreSQL...");
+try
+{
+    var filterService = new FilterService(POSTGRES_CONNECTION);
+    var filterProfileName = activeFilter?.ProfileName ?? "none";
+    filterService.SaveExtractedFields(filteredFields, FILLED_TEMPLATE_PATH, filterProfileName);
+    Console.WriteLine("✓ Data saved to PostgreSQL\n");
 
-// Step 9: Display summary reports
-Console.WriteLine(analyticsService.GetSummaryReport());
-Console.WriteLine(analyticsService.GetValidationErrorsReport());
-Console.WriteLine(analyticsService.GetFilterUsageReport());
+    // Step 9: Display summary report from database
+    Console.WriteLine(filterService.GetExtractedDataSummary());
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"⚠ Could not save to database: {ex.GetBaseException().Message}\n");
+}
 
 Console.WriteLine("✓ Complete! Generated files:");
 Console.WriteLine("  📄 sample-template.docx (empty template)");
 Console.WriteLine("  📄 sample-template-filled.docx (filled template)");
 Console.WriteLine("  📊 extracted-fields.json (extracted data as JSON)");
-Console.WriteLine("  🗄️  extracted_data.db (SQLite analytics database)");
+Console.WriteLine("  🗄️  PostgreSQL database (extracted_fields table)");
 
 /// <summary>
 /// Initializes the database and creates sample filter profiles.

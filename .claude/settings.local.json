@@ -19,7 +19,11 @@
       "Bash(git commit -m 'fix: Resolve foreign key constraint error in filter rule creation:*)",
       "Bash(git commit -m 'fix: Properly apply contact_info filter profile to extracted fields:*)",
       "Bash(dotnet add:*)",
-      "Bash(git commit -m 'feat: Add SQLite analytics database with reporting:*)"
+      "Bash(git commit -m 'feat: Add SQLite analytics database with reporting:*)",
+      "Bash(ls -lh /c/Users/admin/DocxExtractor/*.db /c/Users/admin/DocxExtractor/*.json /c/Users/admin/DocxExtractor/*.md)",
+      "Bash(grep -E \"\\\\.\\(db|json|md\\)$\")",
+      "Bash(dotnet remove:*)",
+      "Bash(git commit -m 'refactor: Save extracted data directly to PostgreSQL:*)"
     ]
   }
 }
