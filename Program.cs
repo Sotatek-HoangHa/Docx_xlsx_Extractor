@@ -65,7 +65,9 @@ try
     {
         Console.WriteLine($"✓ Filter '{activeFilter.ProfileName}' applied");
         Console.WriteLine($"  Original fields: {extractedFields.Count}");
-        Console.WriteLine($"  Filtered fields: {filteredFields.Count}\n");
+        Console.WriteLine($"  Filtered fields: {filteredFields.Count}");
+        Console.WriteLine($"  Include types: {string.Join(", ", activeFilter.IncludeFieldTypes)}");
+        Console.WriteLine($"  Exclude types: {string.Join(", ", activeFilter.ExcludeFieldTypes)}\n");
         Console.WriteLine(fieldFilterService.GetFilterInfo());
     }
     else
@@ -90,51 +92,54 @@ DisplayAsTable(filteredFields);
 Console.WriteLine("\n✓ Complete! Check the generated DOCX files in the current directory.");
 
 /// <summary>
-/// Initializes the database and creates sample filter profiles if they don't exist.
+/// Initializes the database and creates sample filter profiles.
 /// </summary>
 static void InitializeDatabase(string connectionString)
 {
     var filterService = new FilterService(connectionString);
     filterService.InitializeDatabase();
 
-    // Create sample filter profiles if they don't exist
+    // Always recreate profiles to ensure they have the correct rules
     var existingProfiles = filterService.GetAllFilterProfiles();
 
-    if (existingProfiles.Count == 0)
+    // Delete existing profiles to recreate them fresh
+    foreach (var profile in existingProfiles)
     {
-        // Profile 1: Include only contact information (email, phone)
-        var includeContact = new System.Collections.Generic.List<string> { "Email", "Phone" };
-        var excludeEmpty1 = new System.Collections.Generic.List<string>();
-        filterService.CreateFilterProfile(
-            name: "contact_info",
-            description: "Extract only email and phone fields",
-            includeTypes: includeContact,
-            excludeTypes: excludeEmpty1
-        );
-
-        // Profile 2: Exclude sensitive data (email, phone)
-        var includeEmpty2 = new System.Collections.Generic.List<string>();
-        var excludeSensitive = new System.Collections.Generic.List<string> { "Email", "Phone" };
-        filterService.CreateFilterProfile(
-            name: "no_sensitive",
-            description: "Extract all fields except email and phone",
-            includeTypes: includeEmpty2,
-            excludeTypes: excludeSensitive
-        );
-
-        // Profile 3: Date and personal info only
-        var includeDate = new System.Collections.Generic.List<string> { "Date" };
-        var excludeEmpty3 = new System.Collections.Generic.List<string>();
-        filterService.CreateFilterProfile(
-            name: "dates_only",
-            description: "Extract only date fields",
-            includeTypes: includeDate,
-            excludeTypes: excludeEmpty3
-        );
-
-        // Activate the first profile by default
-        filterService.ActivateFilterProfile("contact_info");
+        filterService.DeleteFilterProfile(profile.ProfileName);
     }
+
+    // Profile 1: Include only contact information (email, phone)
+    var includeContact = new List<string> { "Email", "Phone" };
+    var excludeEmpty1 = new List<string>();
+    filterService.CreateFilterProfile(
+        name: "contact_info",
+        description: "Extract only email and phone fields",
+        includeTypes: includeContact,
+        excludeTypes: excludeEmpty1
+    );
+
+    // Profile 2: Exclude sensitive data (email, phone)
+    var includeEmpty2 = new List<string>();
+    var excludeSensitive = new List<string> { "Email", "Phone" };
+    filterService.CreateFilterProfile(
+        name: "no_sensitive",
+        description: "Extract all fields except email and phone",
+        includeTypes: includeEmpty2,
+        excludeTypes: excludeSensitive
+    );
+
+    // Profile 3: Date and personal info only
+    var includeDate = new List<string> { "Date" };
+    var excludeEmpty3 = new List<string>();
+    filterService.CreateFilterProfile(
+        name: "dates_only",
+        description: "Extract only date fields",
+        includeTypes: includeDate,
+        excludeTypes: excludeEmpty3
+    );
+
+    // Activate the first profile by default
+    filterService.ActivateFilterProfile("contact_info");
 }
 
 /// <summary>

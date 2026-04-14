@@ -8,7 +8,7 @@
   {
     "Key": "email_address",
     "Label": "Email Address",
-    "Value": "john.doeexamplecom - invalid email format",
+    "Value": "john.doe@examplecom",
     "Type": "Content Control"
   },
   {
@@ -38,7 +38,7 @@
   {
     "Key": "agree_terms",
     "Label": "I agree to the terms and conditions",
-    "Value": "Yes",
+    "Value": "13124 - invalid boolean value",
     "Type": "Content Control"
   }
 ]

@@ -101,22 +101,25 @@ public class FilterService
         using var context = new FilterDbContext(_connectionString);
 
         var profile = context.FilterProfiles
-            .Include(x => x.IncludeRules)
-            .Include(x => x.ExcludeRules)
             .FirstOrDefault(x => x.Name == profileName);
 
         if (profile == null)
             return null;
 
+        // Get all rules for this profile and split by IsIncludeRule flag
+        var allRules = context.FilterRules
+            .Where(x => x.FilterProfileId == profile.Id)
+            .ToList();
+
         return new ExtractionFilter
         {
             ProfileId = profile.Id,
             ProfileName = profile.Name,
-            IncludeFieldTypes = profile.IncludeRules
+            IncludeFieldTypes = allRules
                 .Where(x => x.IsIncludeRule)
                 .Select(x => x.FieldType)
                 .ToList(),
-            ExcludeFieldTypes = profile.ExcludeRules
+            ExcludeFieldTypes = allRules
                 .Where(x => !x.IsIncludeRule)
                 .Select(x => x.FieldType)
                 .ToList()
@@ -131,22 +134,25 @@ public class FilterService
         using var context = new FilterDbContext(_connectionString);
 
         var profile = context.FilterProfiles
-            .Include(x => x.IncludeRules)
-            .Include(x => x.ExcludeRules)
             .FirstOrDefault(x => x.IsActive);
 
         if (profile == null)
             return null;
 
+        // Get all rules for this profile and split by IsIncludeRule flag
+        var allRules = context.FilterRules
+            .Where(x => x.FilterProfileId == profile.Id)
+            .ToList();
+
         return new ExtractionFilter
         {
             ProfileId = profile.Id,
             ProfileName = profile.Name,
-            IncludeFieldTypes = profile.IncludeRules
+            IncludeFieldTypes = allRules
                 .Where(x => x.IsIncludeRule)
                 .Select(x => x.FieldType)
                 .ToList(),
-            ExcludeFieldTypes = profile.ExcludeRules
+            ExcludeFieldTypes = allRules
                 .Where(x => !x.IsIncludeRule)
                 .Select(x => x.FieldType)
                 .ToList()
@@ -160,21 +166,19 @@ public class FilterService
     {
         using var context = new FilterDbContext(_connectionString);
 
-        var profiles = context.FilterProfiles
-            .Include(x => x.IncludeRules)
-            .Include(x => x.ExcludeRules)
-            .ToList();
+        var profiles = context.FilterProfiles.ToList();
+        var allRules = context.FilterRules.ToList();
 
         return profiles.Select(p => new ExtractionFilter
         {
             ProfileId = p.Id,
             ProfileName = p.Name,
-            IncludeFieldTypes = p.IncludeRules
-                .Where(x => x.IsIncludeRule)
+            IncludeFieldTypes = allRules
+                .Where(x => x.FilterProfileId == p.Id && x.IsIncludeRule)
                 .Select(x => x.FieldType)
                 .ToList(),
-            ExcludeFieldTypes = p.ExcludeRules
-                .Where(x => !x.IsIncludeRule)
+            ExcludeFieldTypes = allRules
+                .Where(x => x.FilterProfileId == p.Id && !x.IsIncludeRule)
                 .Select(x => x.FieldType)
                 .ToList()
         }).ToList();

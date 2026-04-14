@@ -7,7 +7,17 @@
       "Bash(find . -name \"*.AssemblyAttributes.cs\" -delete)",
       "Bash(find . -name \"*.AssemblyInfo.cs\" -delete)",
       "Bash(rm -rf bin obj)",
-      "Bash(dotnet run:*)"
+      "Bash(dotnet run:*)",
+      "Bash(ls -lh sample-template*.docx extracted-fields.json)",
+      "Bash(awk '{print $9, \"-\", $5}')",
+      "Bash(netstat -ano)",
+      "Bash(psql -h localhost -U postgres -d postgres -c \"SELECT version\\(\\);\")",
+      "Bash(ls -la /c/Users/admin/DocxExtractor/*.docx /c/Users/admin/DocxExtractor/*.json)",
+      "Bash(git add:*)",
+      "Bash(git commit -m 'feat: Add database-driven field filtering with PostgreSQL:*)",
+      "Bash(git push:*)",
+      "Bash(git commit -m 'fix: Resolve foreign key constraint error in filter rule creation:*)",
+      "Bash(git commit -m 'fix: Properly apply contact_info filter profile to extracted fields:*)"
     ]
   }
 }
