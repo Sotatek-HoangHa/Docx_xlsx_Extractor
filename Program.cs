@@ -14,7 +14,7 @@ const string OUTPUT_TEMPLATE_PATH = "sample-template.docx";
 const string FILLED_TEMPLATE_PATH = "sample-template-filled.docx";
 
 // Database connection string
-const string POSTGRES_CONNECTION = "Host=localhost;Port=5432;Database=postgres;Username=admin;Password=admin123";
+const string POSTGRES_CONNECTION = "Host=localhost;Port=5432;Database=docx_extractor;Username=admin;Password=admin123";
 
 Console.WriteLine("=== DOCX Content Controls Extractor with Database Filtering ===\n");
 

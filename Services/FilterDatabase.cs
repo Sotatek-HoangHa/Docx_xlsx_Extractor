@@ -196,29 +196,35 @@ public class FilterService
             UpdatedAt = DateTime.UtcNow
         };
 
-        // Add include rules
+        context.FilterProfiles.Add(profile);
+        context.SaveChanges(); // Save profile first to get the ID
+
+        // Add include rules with explicit FK
         foreach (var fieldType in includeTypes)
         {
-            profile.IncludeRules.Add(new FilterRule
+            var rule = new FilterRule
             {
+                FilterProfileId = profile.Id,
                 FieldType = fieldType,
                 IsIncludeRule = true,
                 CreatedAt = DateTime.UtcNow
-            });
+            };
+            context.FilterRules.Add(rule);
         }
 
-        // Add exclude rules
+        // Add exclude rules with explicit FK
         foreach (var fieldType in excludeTypes)
         {
-            profile.ExcludeRules.Add(new FilterRule
+            var rule = new FilterRule
             {
+                FilterProfileId = profile.Id,
                 FieldType = fieldType,
                 IsIncludeRule = false,
                 CreatedAt = DateTime.UtcNow
-            });
+            };
+            context.FilterRules.Add(rule);
         }
 
-        context.FilterProfiles.Add(profile);
         context.SaveChanges();
 
         return profile.Id;
