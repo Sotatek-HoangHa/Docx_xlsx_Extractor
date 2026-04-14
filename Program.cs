@@ -54,10 +54,11 @@ Console.WriteLine($"✓ Validation completed\n");
 // Step 5: Apply filter
 Console.WriteLine("Step 5: Applying filter from database...");
 List<FieldValue> filteredFields = extractedFields;
+ExtractionFilter? activeFilter = null;
 try
 {
     var filterService = new FilterService(POSTGRES_CONNECTION);
-    var activeFilter = filterService.GetActiveFilterProfile();
+    activeFilter = filterService.GetActiveFilterProfile();
     var fieldFilterService = new FieldFilterService(activeFilter);
     filteredFields = fieldFilterService.ApplyFilter(extractedFields);
 
@@ -89,7 +90,23 @@ DisplayAsJson(filteredFields);
 Console.WriteLine("\n=== EXTRACTED DATA (TABLE FORMAT - AFTER FILTERING) ===\n");
 DisplayAsTable(filteredFields);
 
-Console.WriteLine("\n✓ Complete! Check the generated DOCX files in the current directory.");
+// Step 8: Save to analytics database for reporting
+Console.WriteLine("\nStep 8: Saving extracted data to analytics database...");
+var analyticsService = new DuckDBService("extracted_data.db");
+var filterProfileName = activeFilter?.ProfileName ?? "none";
+analyticsService.SaveExtractedFields(filteredFields, FILLED_TEMPLATE_PATH, filterProfileName);
+Console.WriteLine("✓ Data saved to extracted_data.db\n");
+
+// Step 9: Display summary reports
+Console.WriteLine(analyticsService.GetSummaryReport());
+Console.WriteLine(analyticsService.GetValidationErrorsReport());
+Console.WriteLine(analyticsService.GetFilterUsageReport());
+
+Console.WriteLine("✓ Complete! Generated files:");
+Console.WriteLine("  📄 sample-template.docx (empty template)");
+Console.WriteLine("  📄 sample-template-filled.docx (filled template)");
+Console.WriteLine("  📊 extracted-fields.json (extracted data as JSON)");
+Console.WriteLine("  🗄️  extracted_data.db (SQLite analytics database)");
 
 /// <summary>
 /// Initializes the database and creates sample filter profiles.

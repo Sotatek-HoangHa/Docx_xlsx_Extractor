@@ -9,8 +9,10 @@
       "DocxExtractor/1.0.0": {
         "dependencies": {
           "DocumentFormat.OpenXml": "3.1.0",
+          "DuckDb": "0.1.0",
           "Npgsql": "8.0.1",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.0"
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.0",
+          "System.Data.SQLite.Core": "1.0.119"
         },
         "runtime": {
           "DocxExtractor.dll": {}
@@ -35,6 +37,46 @@
           "lib/net8.0/DocumentFormat.OpenXml.Framework.dll": {
             "assemblyVersion": "3.1.0.0",
             "fileVersion": "3.1.0.0"
+          }
+        }
+      },
+      "DuckDb/0.1.0": {
+        "dependencies": {
+          "DuckDb.Bindings": "0.1.0",
+          "DuckDb.Data": "0.1.0",
+          "DuckDb.Native": "0.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/DuckDb.dll": {
+            "assemblyVersion": "0.1.0.0",
+            "fileVersion": "0.1.0.0"
+          }
+        }
+      },
+      "DuckDb.Bindings/0.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/DuckDb.Bindings.dll": {
+            "assemblyVersion": "0.1.0.0",
+            "fileVersion": "0.1.0.0"
+          }
+        }
+      },
+      "DuckDb.Data/0.1.0": {
+        "dependencies": {
+          "DuckDb.Bindings": "0.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/DuckDb.Data.dll": {
+            "assemblyVersion": "0.1.0.0",
+            "fileVersion": "0.1.0.0"
+          }
+        }
+      },
+      "DuckDb.Native/0.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/DuckDb.Native.dll": {
+            "assemblyVersion": "0.1.0.0",
+            "fileVersion": "0.1.0.0"
           }
         }
       },
@@ -196,6 +238,41 @@
           }
         }
       },
+      "Stub.System.Data.SQLite.Core.NetStandard/1.0.119": {
+        "runtime": {
+          "lib/netstandard2.1/System.Data.SQLite.dll": {
+            "assemblyVersion": "1.0.119.0",
+            "fileVersion": "1.0.119.0"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/SQLite.Interop.dll": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/SQLite.Interop.dll": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/SQLite.Interop.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "1.0.119.0"
+          },
+          "runtimes/win-x86/native/SQLite.Interop.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "1.0.119.0"
+          }
+        }
+      },
+      "System.Data.SQLite.Core/1.0.119": {
+        "dependencies": {
+          "Stub.System.Data.SQLite.Core.NetStandard": "1.0.119"
+        }
+      },
       "System.IO.Packaging/8.0.0": {
         "runtime": {
           "lib/net8.0/System.IO.Packaging.dll": {
@@ -225,6 +302,34 @@
       "sha512": "sha512-yz78IAteV+/jdpmQRlBIfhsmYfDYqgPSyPUsyT7KnfDlTTvqY6Zf5inMjTSwe2bnN8wv9dLD0C2sAkActXIy/A==",
       "path": "documentformat.openxml.framework/3.1.0",
       "hashPath": "documentformat.openxml.framework.3.1.0.nupkg.sha512"
+    },
+    "DuckDb/0.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CKrUGDiug058bHXlX0+0YfFuGOn2iBq0NFXdiJD2riy5mlPKFwfaucKPDuO+GCnkjSVNYL2dHpzKzOp2o0BXeQ==",
+      "path": "duckdb/0.1.0",
+      "hashPath": "duckdb.0.1.0.nupkg.sha512"
+    },
+    "DuckDb.Bindings/0.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7fhFoJyF9aTmTBZlgSgmx+MvjdMmxjQ0MAGKvv462I6znvIC0O/X/I5AuTjn1fEgqboS2HKCQLy1zX2OdjdFkg==",
+      "path": "duckdb.bindings/0.1.0",
+      "hashPath": "duckdb.bindings.0.1.0.nupkg.sha512"
+    },
+    "DuckDb.Data/0.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+FoyBq5CxDn4Y3pEUecWlKHrraTG6UwC+yg1TSUlYQYjrDlIV6stuD9qvTP/4IsDb+/pr9D+jEg/ThMmbgbq/Q==",
+      "path": "duckdb.data/0.1.0",
+      "hashPath": "duckdb.data.0.1.0.nupkg.sha512"
+    },
+    "DuckDb.Native/0.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JxExcNAf02Jbw+8yMfWpRDU3rjSDNafXFUaQP3fnxIc9TPHMqY6XVxPO02X5krJUof5Hxjyzzx9aZnCEic4FhA==",
+      "path": "duckdb.native/0.1.0",
+      "hashPath": "duckdb.native.0.1.0.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore/8.0.0": {
       "type": "package",
@@ -323,6 +428,20 @@
       "sha512": "sha512-GDXiMS9peEdjSCU/rfgyHruio7q6tYuywGaktqEi6UPQ6ILechp3fVVX+dHXkIXt4nklCBzYVWkzFrSL9ubKUA==",
       "path": "npgsql.entityframeworkcore.postgresql/8.0.0",
       "hashPath": "npgsql.entityframeworkcore.postgresql.8.0.0.nupkg.sha512"
+    },
+    "Stub.System.Data.SQLite.Core.NetStandard/1.0.119": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dI7ngiCNgdm+n00nQvFTa+LbHvE9MIQXwMSLRzJI/KAJ7G1WmCachsvfE1CD6xvb3OXJvYYEfv3+S/LHyhN0Rg==",
+      "path": "stub.system.data.sqlite.core.netstandard/1.0.119",
+      "hashPath": "stub.system.data.sqlite.core.netstandard.1.0.119.nupkg.sha512"
+    },
+    "System.Data.SQLite.Core/1.0.119": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bhQB8HVtRA+OOYw8UTD1F1kU+nGJ0/OZvH1JmlVUI4bGvgVEWeX1NcHjA765NvUoRVuCPlt8PrEpZ1thSsk1jg==",
+      "path": "system.data.sqlite.core/1.0.119",
+      "hashPath": "system.data.sqlite.core.1.0.119.nupkg.sha512"
     },
     "System.IO.Packaging/8.0.0": {
       "type": "package",

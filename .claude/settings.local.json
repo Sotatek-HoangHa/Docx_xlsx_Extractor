@@ -17,7 +17,9 @@
       "Bash(git commit -m 'feat: Add database-driven field filtering with PostgreSQL:*)",
       "Bash(git push:*)",
       "Bash(git commit -m 'fix: Resolve foreign key constraint error in filter rule creation:*)",
-      "Bash(git commit -m 'fix: Properly apply contact_info filter profile to extracted fields:*)"
+      "Bash(git commit -m 'fix: Properly apply contact_info filter profile to extracted fields:*)",
+      "Bash(dotnet add:*)",
+      "Bash(git commit -m 'feat: Add SQLite analytics database with reporting:*)"
     ]
   }
 }
