@@ -13,7 +13,23 @@ using System.Text.Json.Serialization;
 const string OUTPUT_TEMPLATE_PATH = "sample-template.docx";
 const string FILLED_TEMPLATE_PATH = "sample-template-filled.docx";
 
-Console.WriteLine("=== DOCX Content Controls Extractor ===\n");
+// Database connection string
+const string POSTGRES_CONNECTION = "Host=localhost;Port=5432;Database=postgres;Username=admin;Password=admin123";
+
+Console.WriteLine("=== DOCX Content Controls Extractor with Database Filtering ===\n");
+
+// Step 0: Initialize database and filter profiles
+Console.WriteLine("Step 0: Initializing database and filter profiles...");
+try
+{
+    InitializeDatabase(POSTGRES_CONNECTION);
+    Console.WriteLine($"✓ Database initialized\n");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"⚠ Database connection failed: {ex.GetBaseException().Message}");
+    Console.WriteLine($"✓ Continuing without database filtering\n");
+}
 
 // Step 1: Create a sample template with content controls
 Console.WriteLine("Step 1: Creating sample template with content controls...");
@@ -35,15 +51,91 @@ Console.WriteLine("Step 4: Validating field values...");
 FieldValidator.ValidateFields(extractedFields);
 Console.WriteLine($"✓ Validation completed\n");
 
-// Step 5: Display results in JSON format
-Console.WriteLine("=== EXTRACTED DATA (JSON FORMAT) ===\n");
-DisplayAsJson(extractedFields);
+// Step 5: Apply filter
+Console.WriteLine("Step 5: Applying filter from database...");
+List<FieldValue> filteredFields = extractedFields;
+try
+{
+    var filterService = new FilterService(POSTGRES_CONNECTION);
+    var activeFilter = filterService.GetActiveFilterProfile();
+    var fieldFilterService = new FieldFilterService(activeFilter);
+    filteredFields = fieldFilterService.ApplyFilter(extractedFields);
 
-// Step 6: Display as table for better readability
-Console.WriteLine("\n=== EXTRACTED DATA (TABLE FORMAT) ===\n");
-DisplayAsTable(extractedFields);
+    if (activeFilter != null)
+    {
+        Console.WriteLine($"✓ Filter '{activeFilter.ProfileName}' applied");
+        Console.WriteLine($"  Original fields: {extractedFields.Count}");
+        Console.WriteLine($"  Filtered fields: {filteredFields.Count}\n");
+        Console.WriteLine(fieldFilterService.GetFilterInfo());
+    }
+    else
+    {
+        Console.WriteLine("✓ No active filter - all fields extracted\n");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"⚠ Could not apply database filter: {ex.GetBaseException().Message}");
+    Console.WriteLine("✓ Using all extracted fields without filtering\n");
+}
+
+// Step 6: Display results in JSON format
+Console.WriteLine("=== EXTRACTED DATA (JSON FORMAT - AFTER FILTERING) ===\n");
+DisplayAsJson(filteredFields);
+
+// Step 7: Display as table for better readability
+Console.WriteLine("\n=== EXTRACTED DATA (TABLE FORMAT - AFTER FILTERING) ===\n");
+DisplayAsTable(filteredFields);
 
 Console.WriteLine("\n✓ Complete! Check the generated DOCX files in the current directory.");
+
+/// <summary>
+/// Initializes the database and creates sample filter profiles if they don't exist.
+/// </summary>
+static void InitializeDatabase(string connectionString)
+{
+    var filterService = new FilterService(connectionString);
+    filterService.InitializeDatabase();
+
+    // Create sample filter profiles if they don't exist
+    var existingProfiles = filterService.GetAllFilterProfiles();
+
+    if (existingProfiles.Count == 0)
+    {
+        // Profile 1: Include only contact information (email, phone)
+        var includeContact = new System.Collections.Generic.List<string> { "Email", "Phone" };
+        var excludeEmpty1 = new System.Collections.Generic.List<string>();
+        filterService.CreateFilterProfile(
+            name: "contact_info",
+            description: "Extract only email and phone fields",
+            includeTypes: includeContact,
+            excludeTypes: excludeEmpty1
+        );
+
+        // Profile 2: Exclude sensitive data (email, phone)
+        var includeEmpty2 = new System.Collections.Generic.List<string>();
+        var excludeSensitive = new System.Collections.Generic.List<string> { "Email", "Phone" };
+        filterService.CreateFilterProfile(
+            name: "no_sensitive",
+            description: "Extract all fields except email and phone",
+            includeTypes: includeEmpty2,
+            excludeTypes: excludeSensitive
+        );
+
+        // Profile 3: Date and personal info only
+        var includeDate = new System.Collections.Generic.List<string> { "Date" };
+        var excludeEmpty3 = new System.Collections.Generic.List<string>();
+        filterService.CreateFilterProfile(
+            name: "dates_only",
+            description: "Extract only date fields",
+            includeTypes: includeDate,
+            excludeTypes: excludeEmpty3
+        );
+
+        // Activate the first profile by default
+        filterService.ActivateFilterProfile("contact_info");
+    }
+}
 
 /// <summary>
 /// Fills the template with sample data by opening and modifying content controls.
@@ -67,12 +159,12 @@ static void FillTemplateWithSampleData(string templatePath, string outputPath)
         Dictionary<string, string> sampleData = new Dictionary<string, string>
         {
             { "full_name", "John Michael Doe" },
-            { "email_address", "john.doeexamplecom" },
+            { "email_address", "john.doe@examplecom" },
             { "birth_date", "195-15" },
             { "gender", "Male" },
             { "country", "United States" },
             { "address", "456 Side Street, Springfield, IL 62701, USA" },
-            { "agree_terms", "Yes" }
+            { "agree_terms", "13124" }
         };
 
         FillContentControls(body, sampleData);

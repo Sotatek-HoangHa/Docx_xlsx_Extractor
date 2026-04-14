@@ -274,20 +274,7 @@ public class FieldValidator
     }
 }
 
-/// <summary>
-/// Field type enumeration for validation.
-/// </summary>
-internal enum FieldType
-{
-    Text,
-    Date,
-    Email,
-    Phone,
-    Url,
-    Gender,
-    Country,
-    Boolean
-}
+// FieldType enum moved to FieldFilterService.cs to avoid duplication
 
 /// <summary>
 /// Validation result for a field.
